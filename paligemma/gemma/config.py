@@ -5,6 +5,7 @@ class GemmaConfig:
         hidden_size: int,
         intermediate_size: int,
         num_hidden_layers: int,
+        num_attention_heads: int,
         num_key_value_heads: int,
         head_dim: int = 256,
         max_position_embddings: int = 8192,
@@ -20,6 +21,7 @@ class GemmaConfig:
         self.hidden_size = hidden_size
         self.intermediate_size = intermediate_size
         self.num_hidden_layers = num_hidden_layers
+        self.num_attention_heads = num_attention_heads
         self.num_key_value_heads = num_key_value_heads
         self.head_dim = head_dim
         self.max_position_embddings = max_position_embddings

@@ -28,17 +28,17 @@ class GemmaAttention(nn.Module):
         )
         self.q_proj = nn.Linear(
             in_features=self.hidden_size,
-            out_features=self.num_heads * self.head_dim,
+            out_features=self.num_key_value_heads * self.head_dim,
             bias=config.attentions_bias,
         )
         self.v_proj = nn.Linear(
             in_features=self.hidden_size,
-            out_features=self.num_heads * self.head_dim,
+            out_features=self.num_key_value_heads * self.head_dim,
             bias=config.attentions_bias,
         )
         self.out_proj = nn.Linear(
             in_features=self.hidden_size,
-            out_features=self.num_heads * self.head_dim,
+            out_features=self.num_key_value_heads * self.head_dim,
             bias=config.attentions_bias,
         )
 
