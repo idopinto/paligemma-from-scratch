@@ -1,14 +1,14 @@
 import torch
 import torch.nn as nn
 from .config import SiglipVisionConfig
-from vision_embeddings import SiglipVisionEmbeddings
-from vision_encoder import SiglipEncoder
-from common.layer_norm import LayerNorm
+from .vision_embeddings import SiglipVisionEmbeddings
+from .encoder import SiglipEncoder
+from paligemma.common.layer_norm import LayerNorm
 
 
 class SiglipVisionTransformer(nn.Module):
     def __init__(self, config: SiglipVisionConfig):
-        super().__inst__()
+        super().__init__()
         self.config = config
         self.embeddings = SiglipVisionEmbeddings(config)
         self.encoder = SiglipEncoder(config)
@@ -17,9 +17,11 @@ class SiglipVisionTransformer(nn.Module):
         )
 
     def forward(self, pixel_values: torch.Tensor) -> torch.Tensor:
-        hidden_states = self.embeddings(pixel_values)  # [B, C,H, W] -> [B, Np, D]
+        hidden_states = self.embeddings(pixel_values)  # [B, C, H, W] -> [B, Np, D]
         last_hidden_state = self.encoder(
             inputs_embeds=hidden_states
-        )  # [B, Np, D] -> [B, D]
-        last_hidden_state = self.post_layernorm(last_hidden_state)  # [B, D] -> [B, D]
+        )  # [B, Np, D] -> [B, Np, D]
+        last_hidden_state = self.post_layernorm(
+            last_hidden_state
+        )  # [B, Np, D] -> [B, Np, D]
         return last_hidden_state

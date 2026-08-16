@@ -1,6 +1,26 @@
 import torch
 import torch.nn as nn
 
+"""
+Why?
+Big Change in input of a layer
+            |
+            V
+Big change in output of a layer
+            |
+            V
+Big change in loss
+            |
+            V
+Big change in gradient 
+            |
+            V
+Big change in the weights of the networks
+            |
+            V
+model that trains slowly!
+"""
+
 
 class LayerNorm(nn.Module):
     def __init__(self, embed_dim, eps):
