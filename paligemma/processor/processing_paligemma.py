@@ -107,7 +107,7 @@ class PaliGemmaProcessor:
 
         pixel_values = process_images(
             images,
-            size=(self.image_size, self.images_size),
+            size=(self.image_size, self.image_size),
             resample=Image.Resampling.BICUBIC,
             rescale_factor=1 / 255.0,
             image_mean=IMAGENET_STANDARD_MEAN,

@@ -17,7 +17,7 @@ class PaliGemmaForConditionalGeneration(nn.Module):
 
         self.language_model = GemmaForCausalLM(config.text_config)
         self.pad_token_id = (
-            self.config.pad_token_id if self.config.pad_toekn_id is not None else -1
+            self.config.pad_token_id if self.config.pad_token_id is not None else -1
         )
 
     def forward(
@@ -154,9 +154,7 @@ class PaliGemmaForConditionalGeneration(nn.Module):
         # [B, Q, KV] -> [B, 1, Q, KV] so it broadcasts over attention heads.
         causal_mask = causal_mask.unsqueeze(1)
 
-        # --- 3. Position ids for RoPE -------------------------------------------
-        if kv_cache is not None and kv_cache.num_item() > 0:
-            # Decode: the new token sits at the last valid position of the growing sequence.
+        if kv_cache is not None and kv_cache.num_items() > 0:
             position_ids = attention_mask.cumsum(-1)[:, -1]
             if position_ids.dim() == 1:
                 position_ids = position_ids.unsqueeze(0)
