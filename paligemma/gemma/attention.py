@@ -4,6 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from paligemma.gemma.config import GemmaConfig
+from paligemma.gemma.rope import GemmaRotaryEmbedding, apply_rotary_pos_emb
 
 
 def repeat_kv(hidden_states: torch.Tensor, n_rep: int) -> torch.Tensor:
