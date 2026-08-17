@@ -1,4 +1,4 @@
-from paligemma.kv_cache import KVCache
+from paligemma.gemma.kv_cache import KVCache
 import torch
 import torch.nn as nn
 from paligemma.gemma.config import GemmaConfig

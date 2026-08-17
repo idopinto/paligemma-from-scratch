@@ -4,7 +4,7 @@ from paligemma.config import PaliGemmaConfig
 from paligemma.multimodal_projector import PaliGemmaMultiModalProjector
 from paligemma.siglip.modeling_siglip import SiglipVisionModel
 from paligemma.gemma.modeling_gemma import GemmaForCausalLM
-from paligemma.kv_cache import KVCache
+from paligemma.gemma.kv_cache import KVCache
 
 
 class PaliGemmaForConditionalGeneration(nn.Module):
