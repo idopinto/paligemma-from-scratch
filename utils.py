@@ -44,9 +44,13 @@ def load_hf_model(
     end_time = time.time()
     print(f"Time taken to load state dict: {end_time - start_time:.2f}s")
     if missing:
-        print(f"  Missing keys ({len(missing)}): {missing[:5]}{'...' if len(missing) > 5 else ''}")
+        print(
+            f"  Missing keys ({len(missing)}): {missing[:5]}{'...' if len(missing) > 5 else ''}"
+        )
     if unexpected:
-        print(f"  Unexpected keys ({len(unexpected)}): {unexpected[:5]}{'...' if len(unexpected) > 5 else ''}")
+        print(
+            f"  Unexpected keys ({len(unexpected)}): {unexpected[:5]}{'...' if len(unexpected) > 5 else ''}"
+        )
 
     model = model.to(device)
     model.tie_weights()
