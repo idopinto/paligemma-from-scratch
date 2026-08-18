@@ -15,8 +15,8 @@ class GemmaMLP(nn.Module):
         self.down_proj = nn.Linear(self.intermediate_size, self.hidden_size, bias=False)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = self.gate_proj(x)
-        x = F.gelu(x, approximate="tanh")
-        x = x * self.up_proj(x)
+        gate = self.gate_proj(x)
+        up = self.up_proj(x)
+        x = F.gelu(gate, approximate="tanh") * up
         x = self.down_proj(x)
         return x

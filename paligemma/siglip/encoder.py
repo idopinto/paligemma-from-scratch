@@ -3,7 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from .config import SiglipVisionConfig
-from paligemma.common.layer_norm import LayerNorm
 from paligemma.siglip.mlp import SiglipMLP
 from paligemma.siglip.attention import SiglipAttention
 
@@ -11,14 +10,10 @@ from paligemma.siglip.attention import SiglipAttention
 class SiglipEncoderLayer(nn.Module):
     def __init__(self, config: SiglipVisionConfig):
         super().__init__()
-        self.layer_norm1 = nn.LayerNorm(
-            embed_dim=config.hidden_size, eps=config.layer_norm_eps
-        )
+        self.layer_norm1 = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
         self.self_attn = SiglipAttention(config)
         self.mlp = SiglipMLP(config)
-        self.layer_norm2 = nn.LayerNorm(
-            embed_dim=config.hidden_size, eps=config.layer_norm_eps
-        )
+        self.layer_norm2 = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
 
     def forward(self, hidden_states: torch.Tensor) -> torch.Tensor:
         # residual / hidden_states: [B, Np, D]

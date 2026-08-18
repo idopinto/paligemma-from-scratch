@@ -25,13 +25,18 @@ class GemmaDecoderLayer(nn.Module):
         self,
         hidden_states: torch.Tensor,
         attention_mask: torch.Tensor,
-        poistion_ids: torch.Tensor,
+        position_ids: torch.Tensor,
         kv_cache: KVCache,
     ):
         # [B, S, D_text]->[B,S, D_text]
         residual = hidden_states
         hidden_states = self.input_layernorm(hidden_states)
-        hidden_states, _ = self.self_attn(hidden_states)
+        hidden_states, _ = self.self_attn(
+            hidden_states,
+            attention_mask=attention_mask,
+            position_ids=position_ids,
+            kv_cache=kv_cache,
+        )
         hidden_states = residual + hidden_states
         residual = hidden_states
         hidden_states = self.post_attention_layernorm(hidden_states)

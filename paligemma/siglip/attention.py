@@ -51,7 +51,7 @@ class SiglipAttention(nn.Module):
         attn_weights = (
             torch.matmul(query_states, key_states.transpose(2, 3)) * self.scale
         )  # [B, H, Np,dh] X [B, H, dh, Np]-> [B, H, Np, Np]
-        assert attn_weights == (batch_size, self.num_heads, seq_len, seq_len), (
+        assert attn_weights.shape == (batch_size, self.num_heads, seq_len, seq_len), (
             f"Attention weights should be of size {(batch_size, self.num_heads, seq_len, seq_len)} but is {attn_weights.size()}"
         )
 
@@ -70,11 +70,16 @@ class SiglipAttention(nn.Module):
         attn_output = torch.matmul(
             attn_weights, value_states
         )  # [B, H, Np, Np] @ [B, H, Np, dh] -> [B, H, Np, dh]
-        assert attn_weights == (batch_size, self.num_heads, seq_len, self.head_dim), (
+        assert attn_output.shape == (
+            batch_size,
+            self.num_heads,
+            seq_len,
+            self.head_dim,
+        ), (
             f"Attention outputs should be of size {(batch_size, self.num_heads, seq_len, self.head_dim)} but is {attn_output.size()}"
         )
         attn_output = (
-            attn_output.tranpose(1, 2)
+            attn_output.transpose(1, 2)
             .contiguous()
             .view(batch_size, seq_len, self.head_dim * self.num_heads)
         )  # # [B, H, Np, dh] -> [B, Np, H, dh] -> [B, Np, H * dh= D]

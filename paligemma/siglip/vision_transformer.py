@@ -19,7 +19,7 @@ class SiglipVisionTransformer(nn.Module):
     def forward(self, pixel_values: torch.Tensor) -> torch.Tensor:
         hidden_states = self.embeddings(pixel_values)  # [B, C, H, W] -> [B, Np, D]
         last_hidden_state = self.encoder(
-            inputs_embeds=hidden_states
+            input_embeds=hidden_states
         )  # [B, Np, D] -> [B, Np, D]
         last_hidden_state = self.post_layernorm(
             last_hidden_state

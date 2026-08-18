@@ -51,6 +51,7 @@ def process_images(
     image_std: float | list[float] | None = None,
 ) -> list[np.ndarray]:
     height, width = size[0], size[1]
+    images = [image.convert("RGB") for image in images]
     images = [
         resize(image=image, size=(height, width), resample=resample) for image in images
     ]

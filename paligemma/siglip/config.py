@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 
 
 # polygamma comes in different sizes
@@ -16,22 +16,32 @@ class SiglipVisionConfig:
     attention_dropout: float = 0.0
     num_image_tokens: int | None = None
 
+    @classmethod
+    def from_dict(cls, config: dict) -> SiglipVisionConfig:
+        """Build from a checkpoint's config.json.
 
-@dataclass
-class SiglipSo400mVisionConfig(SiglipVisionConfig):
-    """Shape-optimized ViT (~400M). PaliGemma's vision tower.
+        HF checkpoints carry keys we don't model (model_type, projector_hidden_act,
+        vision_use_head, ...); drop anything that isn't a declared field.
+        """
+        known = {f.name for f in fields(cls)}
+        return cls(**{k: v for k, v in config.items() if k in known})
 
-    Same architecture as google/siglip-so400m-patch14-384.
-    PaliGemma later runs this at 224 / 448 / 896 (pos embeds interpolated).
-    """
 
-    hidden_size: int = 1152
-    intermediate_size: int = 4304
-    num_hidden_layers: int = 27
-    num_attention_heads: int = 16
-    num_channels: int = 3
-    image_size: int = 384
-    patch_size: int = 14
-    layer_norm_eps: float = 1e-6
-    attention_dropout: float = 0.0
-    num_image_tokens: int = (384 // 14) ** 2  # 27 ** 2 = 729
+# @dataclass
+# class SiglipSo400mVisionConfig(SiglipVisionConfig):
+#     """Shape-optimized ViT (~400M). PaliGemma's vision tower.
+
+#     Same architecture as google/siglip-so400m-patch14-384.
+#     PaliGemma later runs this at 224 / 448 / 896 (pos embeds interpolated).
+#     """
+
+#     hidden_size: int = 1152
+#     intermediate_size: int = 4304
+#     num_hidden_layers: int = 27
+#     num_attention_heads: int = 16
+#     num_channels: int = 3
+#     image_size: int = 384
+#     patch_size: int = 14
+#     layer_norm_eps: float = 1e-6
+#     attention_dropout: float = 0.0
+#     num_image_tokens: int = (384 // 14) ** 2  # 27 ** 2 = 729

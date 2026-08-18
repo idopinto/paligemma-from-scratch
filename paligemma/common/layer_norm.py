@@ -27,11 +27,12 @@ class LayerNorm(nn.Module):
         super().__init__()
         self.embed_dim = embed_dim
         self.eps = eps
-        self.gamma = nn.Parameter(torch.ones(embed_dim), requires_grad=True)
-        self.beta = nn.Parameter(torch.zeros(embed_dim), requires_grad=True)
+        # Named `weight`/`bias` (not `gamma`/`beta`) to match HF checkpoint keys.
+        self.weight = nn.Parameter(torch.ones(embed_dim), requires_grad=True)
+        self.bias = nn.Parameter(torch.zeros(embed_dim), requires_grad=True)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # ((x - mean) / sqrt(var + eps)) * gamma + beta
+        # ((x - mean) / sqrt(var + eps)) * weight + bias
         mean = x.mean(dim=-1, keepdim=True)
         var = x.var(
             dim=-1,
@@ -40,7 +41,7 @@ class LayerNorm(nn.Module):
         )
 
         x_norm = (x - mean) / (var + self.eps) ** 0.5
-        return self.gamma * x_norm + self.beta
+        return self.weight * x_norm + self.bias
 
 
 # Test LayerNorm against nn.LayerNorm for equivalence
