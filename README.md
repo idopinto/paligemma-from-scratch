@@ -4,6 +4,8 @@ A PyTorch re-implementation of [PaliGemma: A versatile 3B VLM for transfer](http
 
 Inspired by [this walkthrough](https://www.youtube.com/watch?v=vAmKB7iPkWw&t=8310s), which builds the model layer by layer and walks through loading pretrained weights and running generation.
 
+![PaliGemma architecture](images/paligemma_architecture.png)
+
 ## What this is
 
 PaliGemma takes an image and a text prompt, fuses them into a single sequence, and generates a text response. This repo implements that pipeline in plain PyTorch:
