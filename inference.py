@@ -30,11 +30,13 @@ def parse_args(args: list[str] | None = None):
     parser.add_argument(
         "--prompt",
         type=str,
-        default="This building is ",
+        default="Describe the image: ",
         help="The user prompt.",
     )
-    parser.add_argument("--image_file_path", type=str, default="test_images/pic1.png")
-    parser.add_argument("--max_tokens_to_generate", type=int, default=20)
+    # This building is
+    # test_images/pic1.png
+    parser.add_argument("--image_file_path", type=str, default="test_images/dog.png")
+    parser.add_argument("--max_tokens_to_generate", type=int, default=100)
     parser.add_argument("--temperature", type=float, default=0.8)
     parser.add_argument("--top_p", type=float, default=0.9)
     parser.add_argument("--do_sample", action="store_true")
