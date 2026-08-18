@@ -69,7 +69,6 @@ The script prints the generated text along with generation time and tokens/sec.
 
 - [ ] Support batched inference (multiple prompts and/or images in one forward pass)
 - [ ] Support multi-image inputs
-- [ ] Skip re-running the vision tower on decode steps (cache image features after prefill)
 - [ ] Fine-tuning script (LoRA or full fine-tune on a custom dataset)
 - [ ] Object detection — decode `<loc####>` bounding box tokens and render boxes on the image
 - [ ] Segmentation — decode `<seg###>` tokens and reconstruct segmentation masks
